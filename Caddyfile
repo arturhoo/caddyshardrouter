@@ -1,0 +1,16 @@
+{
+	debug
+	order jwt_shard_router before method
+}
+
+http://localhost:5000 {
+	log {
+		output stderr
+	}
+
+	jwt_shard_router
+
+	reverse_proxy {
+		to {http.vars.shard.upstream}
+	}
+}

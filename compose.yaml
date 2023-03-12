@@ -1,0 +1,34 @@
+---
+version: "3.9"
+services:
+  caddy:
+    depends_on:
+      - redis
+      - us-east-1
+      - europe-west-2
+    build: .
+    environment:
+      - REDIS_ADDR=redis:6379
+    ports:
+      - "5000:5000"
+  us-east-1:
+    build: upstream/
+    environment:
+      - PORT=8080
+      - SHARD=us-east-1
+  europe-west-2:
+    build: upstream/
+    environment:
+      - PORT=8080
+      - SHARD=europe-west-2
+  redis:
+    image: "redis:7.0.9"
+  define-shards:
+    depends_on:
+      - redis
+    image: "redis:7.0.9"
+    command: >
+      bash -c "
+        redis-cli -h redis SET walmart 'us-east-1:8080' &&
+        redis-cli -h redis SET waitrose 'europe-west-2:8080'
+      "
