@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 var localKeyBytes, _ = os.ReadFile("cert/id_rsa.pub")
