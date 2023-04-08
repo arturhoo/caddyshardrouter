@@ -10,7 +10,7 @@ services:
     environment:
       - REDIS_ADDR=redis:6379
     ports:
-      - "5000:5000"
+      - "4567:4567"
   us-east-1:
     build: upstream/
     environment:

@@ -3,7 +3,7 @@
 	order jwt_shard_router before method
 }
 
-http://localhost:5000 {
+http://localhost:4567 {
 	log {
 		output stderr
 	}

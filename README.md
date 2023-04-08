@@ -16,7 +16,7 @@ $ WALMART_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJjdXN0b21lciI6IndhbG1hcnQifQ.PZBoUWYkdcjn
 ```
 
 ```text
-$ http localhost:5000 -A bearer -a $WAITROSE_TOKEN
+$ http localhost:4567 -A bearer -a $WAITROSE_TOKEN
 HTTP/1.1 200 OK
 Content-Length: 29
 Content-Type: application/json; charset=utf-8
@@ -30,7 +30,7 @@ X-Shard: europe-west-2
 ```
 
 ```text
-$ http localhost:5000 -A bearer -a $WALMART_TOKEN
+$ http localhost:4567 -A bearer -a $WALMART_TOKEN
 HTTP/1.1 200 OK
 Content-Length: 28
 Content-Type: application/json; charset=utf-8
