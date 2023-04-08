@@ -1,4 +1,4 @@
-FROM golang:1.20.2 as build
+FROM golang:1.20.3 as build
 RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
 
 WORKDIR /go/src/shardrouter
