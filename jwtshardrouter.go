@@ -1,31 +1,21 @@
 package caddyshardrouter
 
 import (
-	"context"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
-	"github.com/redis/go-redis/v9"
 )
 
 func init() {
 	caddy.RegisterModule(JWTShardRouter{})
-	httpcaddyfile.RegisterHandlerDirective("jwt_shard_router", parseCaddyfile)
+	httpcaddyfile.RegisterHandlerDirective("jwt_shard_router", jwtParseCaddyfile)
 }
 
 type JWTShardRouter struct {
 }
-
-var ctx = context.Background()
-var rdb = redis.NewClient(&redis.Options{
-	Addr:     os.Getenv("REDIS_ADDR"),
-	Password: "",
-	DB:       0,
-})
 
 func (JWTShardRouter) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{
@@ -48,7 +38,7 @@ func (m JWTShardRouter) ServeHTTP(w http.ResponseWriter, r *http.Request, next c
 	return next.ServeHTTP(w, r)
 }
 
-func parseCaddyfile(h httpcaddyfile.Helper) (caddyhttp.MiddlewareHandler, error) {
+func jwtParseCaddyfile(h httpcaddyfile.Helper) (caddyhttp.MiddlewareHandler, error) {
 	var m JWTShardRouter
 	return m, nil
 }
