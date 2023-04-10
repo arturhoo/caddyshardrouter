@@ -8,6 +8,8 @@ To run this proof of concept:
 $ docker-compose up --build --force-recreate --renew-anon-volumes
 ```
 
+## JWT Authorization Bearer
+
 Here are the tokens generated with the private key counter part of the public one in the `cert/` directory.
 
 ```
@@ -40,5 +42,35 @@ X-Shard: us-east-1
 
 {
     "message": "Hello walmart!"
+}
+```
+
+## Request Body
+
+```
+$ http localhost:4567 customer=walmart
+HTTP/1.1 200 OK
+Content-Length: 28
+Content-Type: application/json; charset=utf-8
+Date: Mon, 10 Apr 2023 18:55:02 GMT
+Server: Caddy
+X-Shard: us-east-1
+
+{
+    "message": "Hello walmart!"
+}
+```
+
+```
+$ http localhost:4567 customer=waitrose
+HTTP/1.1 200 OK
+Content-Length: 29
+Content-Type: application/json; charset=utf-8
+Date: Mon, 10 Apr 2023 18:54:58 GMT
+Server: Caddy
+X-Shard: europe-west-2
+
+{
+    "message": "Hello waitrose!"
 }
 ```

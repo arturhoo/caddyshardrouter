@@ -1,6 +1,7 @@
 {
 	debug
 	order jwt_shard_router before method
+	order body_shard_router before method
 }
 
 http://localhost:4567 {
@@ -8,9 +9,25 @@ http://localhost:4567 {
 		output stderr
 	}
 
-	jwt_shard_router
+	@get {
+		method GET
+	}
 
-	reverse_proxy {
-		to {http.vars.shard.upstream}
+	@post {
+		method POST
+	}
+
+	handle @get {
+		jwt_shard_router
+		reverse_proxy {
+			to {http.vars.shard.upstream}
+		}
+	}
+
+	handle @post {
+		body_shard_router
+		reverse_proxy {
+			to {http.vars.shard.upstream}
+		}
 	}
 }
