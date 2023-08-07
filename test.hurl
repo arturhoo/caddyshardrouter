@@ -1,0 +1,33 @@
+GET http://localhost:4567
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJjdXN0b21lciI6IndhaXRyb3NlIn0.nTsHw9KBCgZS9NT4ZL6TtHSYN7mANz4zpvXaAi_LX6Jtv3BCJot8iptKK7rUp4zcknGahObutC7snqseI-hGyk-aaya5l4SmHL-eS3mHy4NWQirt_Btb1B3lySt3Bj57LP3ivC2fm4rxisvmc5uXTSJkgZhJi19G_hwuaTPpNORt7eJQwIN2PgGggQHAbJURNZztOw24AQD1udbSMJnbTgsG7eNn8yZHR4mMwnxNokk9e-fQTgJV5NHp66J_eqfvxkfE_HKwOJJ-MlpCwIvt6fLgc21RUR_LxNzP6dAwxSi7rU9gLheJsLrQG2x6wK2SU7qYiqGi53YlQ4OpavLCIA
+HTTP 200
+[Asserts]
+jsonpath "$.message" == "Hello waitrose!"
+header "X-Shard" == "europe-west-2"
+
+GET http://localhost:4567
+Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJjdXN0b21lciI6IndhbG1hcnQifQ.PZBoUWYkdcjnGO7mccnUYXuHTdrYGLSDR0GkbcwjtoNFG8OU4a-ALGTXgHrIijWerxb4f53Y4XqXtA0xWnkNiht6g1aUFzXwf2_kYPoEg2JRJUHJwR0pDsdSJHWi2pN9gnxTQETUNVOdokptTkCHOcHgJdA4g3Ywy83Sud9x5Apwbe0UZrU7yir7cIEu_HXHoeok2sxMSf1al0Kl6GwlamVB09edgkRFbx9953u-H6KHCC3u_Ku2zlif13JKiawnAqsO8RQtX1NzcWr2jdl0SQvLV0MuvIsQ-yr9w-t2tLKRbwhTYnbaARHHzK2GOtgg_ALcmz562N011P3YPtMqzg
+HTTP 200
+[Asserts]
+jsonpath "$.message" == "Hello walmart!"
+header "X-Shard" == "us-east-1"
+
+POST http://localhost:4567
+{
+    "customer": "walmart"
+}
+
+HTTP 200
+[Asserts]
+jsonpath "$.message" == "Hello walmart!"
+header "X-Shard" == "us-east-1"
+
+POST http://localhost:4567
+{
+    "customer": "waitrose"
+}
+
+HTTP 200
+[Asserts]
+jsonpath "$.message" == "Hello waitrose!"
+header "X-Shard" == "europe-west-2"
