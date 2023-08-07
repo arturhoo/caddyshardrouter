@@ -3,13 +3,12 @@ module caddyshardrouter
 go 1.20
 
 require (
-	github.com/caddyserver/caddy/v2 v2.6.4
+	github.com/caddyserver/caddy/v2 v2.7.3
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/redis/go-redis/v9 v9.0.5
 )
 
 require (
-	cloud.google.com/go/compute v1.20.1 // indirect
 	filippo.io/edwards25519 v1.0.0 // indirect
 	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
@@ -19,7 +18,7 @@ require (
 	github.com/antlr/antlr4/runtime/Go/antlr/v4 v4.0.0-20230321174746-8dcc6526cfb1 // indirect
 	github.com/aryann/difflib v0.0.0-20210328193216-ff5ff6dc229b // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/caddyserver/certmagic v0.19.0 // indirect
+	github.com/caddyserver/certmagic v0.19.1 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
@@ -74,14 +73,13 @@ require (
 	github.com/prometheus/common v0.44.0 // indirect
 	github.com/prometheus/procfs v0.11.0 // indirect
 	github.com/quic-go/qpack v0.4.0 // indirect
-	github.com/quic-go/qtls-go1-19 v0.3.2 // indirect
-	github.com/quic-go/qtls-go1-20 v0.3.0 // indirect
-	github.com/quic-go/quic-go v0.36.2 // indirect
+	github.com/quic-go/qtls-go1-20 v0.3.1 // indirect
+	github.com/quic-go/quic-go v0.37.3 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	github.com/slackhq/nebula v1.7.2 // indirect
-	github.com/smallstep/certificates v0.24.2 // indirect
+	github.com/smallstep/certificates v0.24.3-rc.5 // indirect
 	github.com/smallstep/nosql v0.6.0 // indirect
 	github.com/smallstep/truststore v0.12.1 // indirect
 	github.com/spf13/cast v1.5.1 // indirect
@@ -93,12 +91,11 @@ require (
 	github.com/zeebo/blake3 v0.2.3 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.mozilla.org/pkcs7 v0.0.0-20210826202110-33d05740a352 // indirect
-	go.step.sm/cli-utils v0.7.6 // indirect
-	go.step.sm/crypto v0.32.3 // indirect
-	go.step.sm/linkedca v0.19.1 // indirect
-	go.uber.org/atomic v1.11.0 // indirect
+	go.step.sm/cli-utils v0.8.0 // indirect
+	go.step.sm/crypto v0.33.0 // indirect
+	go.step.sm/linkedca v0.20.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	go.uber.org/zap v1.24.0 // indirect
+	go.uber.org/zap v1.25.0 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1 // indirect
 	golang.org/x/mod v0.12.0 // indirect
