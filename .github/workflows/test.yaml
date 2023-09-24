@@ -11,13 +11,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Hurl
-        run: |
-          curl --location --remote-name https://github.com/Orange-OpenSource/hurl/releases/download/4.0.0/hurl_4.0.0_amd64.deb
-          sudo apt update && sudo apt install ./hurl_4.0.0_amd64.deb
-
       - name: Start containers
         run: docker-compose up -d --build
 
       - name: Run Hurl tests
-        run: hurl --test test.hurl
+        run: docker run --net=host -v "$(pwd):/app" ghcr.io/orange-opensource/hurl:latest --test /app/test.hurl
