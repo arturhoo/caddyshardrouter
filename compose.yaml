@@ -22,11 +22,11 @@ services:
       - PORT=8080
       - SHARD=europe-west-2
   redis:
-    image: "redis:7.0.12"
+    image: "redis:7.2.2"
   define-shards:
     depends_on:
       - redis
-    image: "redis:7.0.12"
+    image: "redis:7.2.2"
     command: >
       bash -c "
         redis-cli -h redis SET walmart 'us-east-1:8080' &&
