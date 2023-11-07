@@ -19,6 +19,9 @@ func TestParseJWT(t *testing.T) {
 
 func BenchmarkParseJWT(b *testing.B) {
 	for n := 0; n < b.N; n++ {
-		ParseJWT(tokenStr)
+		_, err := ParseJWT(tokenStr)
+		if err != nil {
+			b.Error("got an error", err)
+		}
 	}
 }
