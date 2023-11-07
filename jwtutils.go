@@ -1,8 +1,6 @@
 package caddyshardrouter
 
 import (
-	"crypto/x509"
-	"encoding/pem"
 	"fmt"
 	"os"
 
@@ -11,17 +9,25 @@ import (
 
 var localKeyBytes, _ = os.ReadFile("cert/id_rsa.pub")
 
-func ParseJWT(tokenStr string) (claims jwt.MapClaims) {
-	block, _ := pem.Decode(localKeyBytes)
-	pub, _ := x509.ParsePKCS1PublicKey(block.Bytes)
+func ParseJWT(tokenStr string) (claims jwt.MapClaims, err error) {
+	pub, err := jwt.ParseRSAPublicKeyFromPEM(localKeyBytes)
+	if err != nil {
+		return nil, err
+	}
 
-	token, _ := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return &pub, nil
+		return pub, nil
 	})
+	if err != nil {
+		return nil, err
+	}
 
-	claims, _ = token.Claims.(jwt.MapClaims)
+	var ok bool
+	if claims, ok = token.Claims.(jwt.MapClaims); !ok {
+		return nil, fmt.Errorf("failed to type assert the jwt claims")
+	}
 	return
 }
