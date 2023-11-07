@@ -1,6 +1,7 @@
 package caddyshardrouter
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -28,11 +29,22 @@ func (m JWTShardRouter) ServeHTTP(w http.ResponseWriter, r *http.Request, next c
 	authHeader := r.Header.Get("Authorization")
 	tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 
-	claims := ParseJWT(tokenStr)
-	customer, _ := claims["customer"].(string)
+	claims, err := ParseJWT(tokenStr)
+	if err != nil {
+		fmt.Println(err)
+		return caddyhttp.Error(http.StatusUnauthorized, fmt.Errorf("failed to parse JWT"))
+	}
+
+	customer, ok := claims["customer"].(string)
+	if !ok {
+		return caddyhttp.Error(http.StatusBadRequest, fmt.Errorf("failed to parse customer"))
+	}
 	r.Header.Set("X-Customer", customer)
 
-	shard, _ := rdb.Get(ctx, customer).Result()
+	shard, err := rdb.Get(ctx, customer).Result()
+	if err != nil {
+		return caddyhttp.Error(http.StatusInternalServerError, fmt.Errorf("failed to query redis"))
+	}
 	caddyhttp.SetVar(r.Context(), "shard.upstream", shard)
 
 	return next.ServeHTTP(w, r)
