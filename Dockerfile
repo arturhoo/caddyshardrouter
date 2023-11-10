@@ -9,7 +9,7 @@ RUN go mod download
 COPY *.go .
 RUN CGO_ENABLED=0 xcaddy build --with caddyshardrouter=.
 
-FROM gcr.io/distroless/static-debian11
+FROM gcr.io/distroless/static-debian12
 COPY --from=build /go/src/shardrouter/caddy /
 COPY Caddyfile /
 COPY cert /cert
