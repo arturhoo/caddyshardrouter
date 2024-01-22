@@ -9,8 +9,11 @@ services:
     build: .
     environment:
       - REDIS_ADDR=redis:6379
+      - GOCOVERDIR=/codecov
     ports:
       - "4567:4567"
+    volumes:
+      - ./codecov:/codecov
   us-east-1:
     build: upstream/
     environment:

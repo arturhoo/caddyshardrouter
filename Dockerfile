@@ -7,7 +7,7 @@ COPY go.sum .
 RUN go mod download
 
 COPY *.go .
-RUN CGO_ENABLED=0 xcaddy build --with caddyshardrouter=.
+RUN CGO_ENABLED=0 XCADDY_GO_BUILD_FLAGS="-ldflags -w -s -trimpath -cover" xcaddy build --with caddyshardrouter=.
 
 FROM gcr.io/distroless/static-debian12
 COPY --from=build /go/src/shardrouter/caddy /

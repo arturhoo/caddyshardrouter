@@ -1,6 +1,7 @@
 # Project specific artifacts
 cert/id_rsa
 caddy
+codecov/
 
 # Test binary, built with `go test -c`
 *.test

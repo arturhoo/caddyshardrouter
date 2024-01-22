@@ -11,8 +11,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create codecov folder
+        run: mkdir codecov
+
       - name: Start containers
         run: docker-compose up -d --build
 
       - name: Run Hurl tests
         run: docker run --net=host -v "$(pwd):/app" ghcr.io/orange-opensource/hurl:latest --test /app/test.hurl
+
+      - name: Stop containers
+        if: always()
+        run: docker compose -f "compose.yaml" down
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.21.x"
+
+      - name: Coverage check
+        env:
+          COVERAGE_MIN: 80
+        run: |
+          COVERAGE=$(go tool covdata percent -i=codecov | grep caddyshardrouter | grep -Eo '[0-9]+\.[0-9]+')
+          if (( $(echo "$COVERAGE < $COVERAGE_MIN" | bc -l) )); then
+            echo "Coverage is too low: $COVERAGE"
+            exit 1
+          fi
