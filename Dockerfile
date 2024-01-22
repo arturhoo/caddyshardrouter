@@ -1,5 +1,4 @@
 FROM golang:1.21.6 as build
-RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
 
 WORKDIR /go/src/shardrouter
 COPY go.mod .
@@ -7,7 +6,8 @@ COPY go.sum .
 RUN go mod download
 
 COPY *.go .
-RUN CGO_ENABLED=0 XCADDY_GO_BUILD_FLAGS="-ldflags -w -s -trimpath -cover" xcaddy build --with caddyshardrouter=.
+COPY cmd/*.go cmd/
+RUN CGO_ENABLED=0 go build -cover -o caddy cmd/main.go
 
 FROM gcr.io/distroless/static-debian12
 COPY --from=build /go/src/shardrouter/caddy /
