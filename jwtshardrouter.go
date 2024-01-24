@@ -8,6 +8,7 @@ import (
 	"github.com/caddyserver/caddy/v2"
 	"github.com/caddyserver/caddy/v2/caddyconfig/httpcaddyfile"
 	"github.com/caddyserver/caddy/v2/modules/caddyhttp"
+	"github.com/redis/go-redis/v9"
 )
 
 func init() {
@@ -31,18 +32,21 @@ func (m JWTShardRouter) ServeHTTP(w http.ResponseWriter, r *http.Request, next c
 
 	claims, err := ParseJWT(tokenStr)
 	if err != nil {
-		fmt.Println(err)
-		return caddyhttp.Error(http.StatusUnauthorized, fmt.Errorf("failed to parse JWT"))
+		return caddyhttp.Error(http.StatusUnauthorized, err)
 	}
 
 	customer, ok := claims["customer"].(string)
 	if !ok {
-		return caddyhttp.Error(http.StatusBadRequest, fmt.Errorf("failed to parse customer"))
+		http.Error(w, "failed to parse customer", http.StatusBadRequest)
+		return next.ServeHTTP(w, r)
 	}
 	r.Header.Set("X-Customer", customer)
 
 	shard, err := rdb.Get(ctx, customer).Result()
-	if err != nil {
+	if err == redis.Nil {
+		http.Error(w, "customer not found", http.StatusNotFound)
+		return next.ServeHTTP(w, r)
+	} else if err != nil {
 		return caddyhttp.Error(http.StatusInternalServerError, fmt.Errorf("failed to query redis"))
 	}
 	caddyhttp.SetVar(r.Context(), "shard.upstream", shard)
