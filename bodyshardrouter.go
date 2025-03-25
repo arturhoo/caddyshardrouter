@@ -35,13 +35,13 @@ func (m BodyShardRouter) ServeHTTP(w http.ResponseWriter, r *http.Request, next 
 		return next.ServeHTTP(w, r)
 	}
 
-	defer r.Body.Close()
 	buf := new(bytes.Buffer)
 	_, _ = io.Copy(buf, r.Body)
+	_ = r.Body.Close()
 	r.Body = io.NopCloser(buf)
 
 	body := buf.String()
-	var data map[string]interface{}
+	var data map[string]any
 	err := json.Unmarshal([]byte(body), &data)
 	if err != nil {
 		http.Error(w, "failed to parse JSON", http.StatusBadRequest)
