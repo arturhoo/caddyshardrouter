@@ -1,4 +1,4 @@
-FROM golang:1.24.3 as build
+FROM golang:1.24.6 as build
 
 WORKDIR /go/src/shardrouter
 COPY go.mod .
