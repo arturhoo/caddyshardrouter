@@ -1,6 +1,6 @@
 module caddyshardrouter
 
-go 1.24.3
+go 1.25.1
 
 require (
 	github.com/caddyserver/caddy/v2 v2.10.0
