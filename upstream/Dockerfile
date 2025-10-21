@@ -1,4 +1,4 @@
-FROM golang:1.25.1 as build
+FROM golang:1.25.3 as build
 
 WORKDIR /go/src/upstream
 COPY . .
