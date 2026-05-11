@@ -13,6 +13,18 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Check Go version consistency
+        run: |
+          WORK_VERSION=$(grep '^go ' go.work | awk '{print $2}')
+          for f in $(find . -name go.mod); do
+            MOD_VERSION=$(grep '^go ' "$f" | awk '{print $2}')
+            if [ "$MOD_VERSION" != "$WORK_VERSION" ]; then
+              echo "ERROR: $f has go $MOD_VERSION, expected $WORK_VERSION (from go.work)"
+              echo "Fix: go mod edit -go=$WORK_VERSION $f"
+              exit 1
+            fi
+          done
+
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
         with:
