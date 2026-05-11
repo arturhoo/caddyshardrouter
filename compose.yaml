@@ -6,7 +6,10 @@ services:
       - redis
       - us-east-1
       - europe-west-2
-    build: .
+    build:
+      context: .
+      args:
+        GO_VERSION: ${GO_VERSION}
     environment:
       - REDIS_ADDR=redis:6379
       - GOCOVERDIR=/codecov
@@ -15,12 +18,18 @@ services:
     volumes:
       - ./codecov:/codecov
   us-east-1:
-    build: upstream/
+    build:
+      context: upstream/
+      args:
+        GO_VERSION: ${GO_VERSION}
     environment:
       - PORT=8080
       - SHARD=us-east-1
   europe-west-2:
-    build: upstream/
+    build:
+      context: upstream/
+      args:
+        GO_VERSION: ${GO_VERSION}
     environment:
       - PORT=8080
       - SHARD=europe-west-2

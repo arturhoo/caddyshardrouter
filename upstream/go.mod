@@ -1,6 +1,6 @@
 module upstream
 
-go 1.26.1
+go 1.26.3
 
 require github.com/gin-gonic/gin v1.11.0
 
