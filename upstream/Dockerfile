@@ -1,5 +1,5 @@
-ARG GO_VERSION=1.26.3
-FROM golang:${GO_VERSION} as build
+ARG GO_VERSION
+FROM golang:${GO_VERSION} AS build
 
 WORKDIR /go/src/upstream
 COPY . .

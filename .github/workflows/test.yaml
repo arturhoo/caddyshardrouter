@@ -17,7 +17,9 @@ jobs:
         run: mkdir codecov
 
       - name: Start containers
-        run: docker compose up -d --build
+        run: |
+          export GO_VERSION=$(grep '^go ' go.work | awk '{print $2}')
+          docker compose up -d --build
 
       - name: Run Hurl tests
         run: docker run --net=host -v "$(pwd):/app" ghcr.io/orange-opensource/hurl:latest --test /app/test.hurl
