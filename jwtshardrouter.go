@@ -28,7 +28,10 @@ func (JWTShardRouter) CaddyModule() caddy.ModuleInfo {
 
 func (m JWTShardRouter) ServeHTTP(w http.ResponseWriter, r *http.Request, next caddyhttp.Handler) error {
 	authHeader := r.Header.Get("Authorization")
-	tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
+	tokenStr, ok := strings.CutPrefix(authHeader, "Bearer ")
+	if !ok {
+		return caddyhttp.Error(http.StatusUnauthorized, fmt.Errorf("missing bearer token"))
+	}
 
 	claims, err := ParseJWT(tokenStr)
 	if err != nil {
